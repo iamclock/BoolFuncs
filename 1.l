@@ -25,9 +25,7 @@ test_degree(/)
 	@+F4(100)
 	OQ4 @'01110101101010101010101010101001'>F4
 	*BFinput(F4/L1)
-	*mobiusTransform(L1/L2)
-	*BFoutput_string(L2/) /'\n'>C
-	*BFdegree(L2/d)
+	*BFdegree(L1/d)
 	
 	
 **
@@ -35,19 +33,24 @@ test_degree(/)
 *** степень булева вектора
 *** L1 - булев вектор, после преобразования Мёбиуса
 *** d - степень булева вектора
-BFdegree(L1/d)
+BFdegree(L2/d)
+	Q2=n
+	@+L1(n)
+	*mobiusTransform(L2/L1)
+	*BFoutput_string(L1/) /'\n'>C
 	Od L1.0=n Q1-1=l 1<n-1=t 1<t=i
-	/'i = '>C *printf(i/) /'\n'>C
+	/'i = '>C *printf(n/) /'\n'>C
 	P1
-		L2l&i=t ?(t>0)2 i<1=i ?=1
+		L2l&i=t ?(t>0)2 i>1=i ?=1
 	P2
-		
-	
-	
-	
-	
-	
+		/'t = '>C *printf(t/) /'\n'>C
+		1<d=t ?(t>=i)3 Dd ?=2
+	P3
+		Yd
 **
+
+
+
 
 dumb(/)
 	*** Эта часть из printANF требуется изменить для степени

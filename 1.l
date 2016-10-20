@@ -7,9 +7,9 @@ main(/)
 	*** *bool_moebius_test(/)
 	*** *bool_pua_test(/)
 	*** *test_printANF(/)
-	*test_degree(/)
+	*** *test_degree(/)
 	*** *test_betterAffineZoom(/)
-	*** *test_nonlinearity(/)
+	*test_nonlinearity(/)
 	*** test_(/)
 **
 
@@ -30,6 +30,8 @@ test_betterAffineZoom(/)
 	*** OQ4 @'01110101101010101010101010101001'>F4
 	OQ4 @'01111010'>F4
 	*BFinput(F4/L1)
+	*** *BFoutput(L1/) /'\n'>C
+	*BFoutput_string(L1/) /'\n'>C
 	*BFbetterAffineZoomBox(L1/L2)
 	/'n = '>C *printf(n/) /'\n'>C
 	
@@ -42,7 +44,7 @@ BFbetterAffineZoomBox(L1/L2)
 	1<L1.0=n
 	@+L3(n)
 	*pua(L1/L3)
-	*BFpuaMaxSearch(L3, n/i, x)
+	*BFpuaMaxSearch(L3/i, x)
 	L1.0=L2.0 1=Q2
 	*BFbetterAffineZoom(L1, i/L2)
 	/'n = '>C *printf(n/) /'\n'>C
@@ -88,6 +90,8 @@ test_nonlinearity(/)
 	*** OQ4 @'01110101101010101010101010101001'>F4
 	OQ4 @'01111010'>F4
 	*BFinput(F4/L1)
+	*** *BFoutput(L1/) /'\n'>C
+	*BFoutput_string(L1/) /'\n'>C
 	*BFnonlinearity(L1/n)
 	/'n = '>C *printf(n/) /'\n'>C
 	
@@ -98,10 +102,17 @@ test_nonlinearity(/)
 BFnonlinearity(L1/n)
 	1<L1.0=n
 	@+L2(n)
-	@+L3(100)
 	*pua(L1/L2)
-	*BFpuaMaxSearch(L2, n/i, v)
-	L1.0-1=n 1<n=n v/2=t n-t=n
+	*sprint_complex(L2/) /'\n'>C
+	*BFpuaMaxSearch(L2/i, v)
+	/'i = '>C *printf(i/) /'\n'>C
+	/'v = '>C *printf(v/) /'\n'>C
+	*** здесь может не работать
+	ffffh=t ?(v>t)1
+		L1.0-1=n 1<n=n v/2=t n-t=n ?=2
+	P1
+		ffffffffh-v=v L1.0-1=n 1<n=n v/2=t n+t=n
+	P2
 **
 
 
@@ -110,13 +121,30 @@ BFnonlinearity(L1/n)
 *** n - длина комплекса L1
 *** i - индекс найденного элемента
 *** v - (value) значение элемента
-BFpuaMaxSearch(L1, n/j, v)
-	Oi=j L1i=v n-1=m
+BFpuaMaxSearch(L1/j, v)
+	Oi=j L1i=v Di Q1-1=m
 	P1 
 		?(i>m)2
-		L2i=u Di ?(u<=v)1 u=v i-1=j ?=1	*** если элемент больше
+		/'L1i = '>C *printf(L1i/) /'\n'>C
+		L1i=u Di ?(u<=v)1 u=v i-1=j ?=1	*** если элемент больше
 	*** предыдущего, запоминается его значение и индекс
 	P2
+**
+
+
+BFpuaMaxSearch_backup(L1/j, v)
+	Oi=j=s L1i<16=v
+	L1i>16=k Di Q1-1=m
+	P1 
+		?(i>m)3
+		/'L1i = '>C *printf(L1i/) /'\n'>C
+		L1i<8=u ?(u<=v)2 u=v i=j	*** если элемент больше
+	*** предыдущего, запоминается его значение и индекс
+	P2
+		L1i>8=l Di ?(l<=k)1 l=k i-1=s ?=1
+	P3
+		/'v = '>C *printf(v/) /'\n'>C
+		/'k = '>C *printf(k/) /'\n'>C
 **
 
 

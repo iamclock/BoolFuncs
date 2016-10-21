@@ -8,10 +8,21 @@ main(/)
 	*** *bool_pua_test(/)
 	*** *test_printANF(/)
 	*** *test_degree(/)
-	*** *test_betterAffineZoom(/)
-	*test_nonlinearity(/)
+	*test_betterAffineZoom(/)
+	*** *test_nonlinearity(/)
 	*** test_(/)
 **
+
+
+*** TODO:
+*** ----------------------------------------------------
+*** BFdegree не останавливаться на первой единице
+*** в преобразовании мёбиуса, продолжать поиск
+*** иначе может возникнуть ситуация, когда найденная
+*** степень будет соответствовать 100 или 010 и т.д.
+*** что будет не правильно, также изменить подсчёт
+*** степени нахождение веса
+*** ----------------------------------------------------
 
 
 
@@ -33,7 +44,9 @@ test_betterAffineZoom(/)
 	*** *BFoutput(L1/) /'\n'>C
 	*BFoutput_string(L1/) /'\n'>C
 	*BFbetterAffineZoomBox(L1/L2)
-	/'n = '>C *printf(n/) /'\n'>C
+	/'L1 = '>C *BFoutput_string(L1/) /'\n'>C
+	/'L1 = '>C *BFoutput_string(L2/) /'\n'>C
+	*** /'n = '>C *printf(n/) /'\n'>C
 	
 **
 
@@ -56,7 +69,7 @@ BFbetterAffineZoomBox(L1/L2)
 *** l - индекс наибольшего значения из вектора после преобразования Уолша - Адамара
 *** j - индекс текущего элемента
 *** s - <= 32 возможных бита
-BFbetterAffineZoom(L1, l/L1)
+BFbetterAffineZoom(L1, l/L2)
 	?(Q1<1)6 ?(L1.0<1)6
 	Os=Z=i=c 1<L1i=m Di
 	*** m:32+2=Q1-1=n ?(Z=0)1 Q1-1=Q1-1=n *** n для условия i не больше Q1-1
@@ -75,11 +88,20 @@ BFbetterAffineZoom(L1, l/L1)
 		Dk ?(k<L1.0)2
 		z<j|x=x Ds Dj Ok=c ?(j>31)5 ?(s<m)2
 	P5
-		x=L1i Di=Q1 ?(s<m)1
+		x=L2i Di=Q2 ?(s<m)1
 	P6
 **
 
 
+
+*** значение по модулю (абсолютное значение)
+absolut(x/y)
+	x=y
+	x&ffff0000h=t ?(t=0)2
+	P1
+		x~=y
+	P2
+**
 
 
 test_nonlinearity(/)
@@ -107,12 +129,7 @@ BFnonlinearity(L1/n)
 	*BFpuaMaxSearch(L2/i, v)
 	/'i = '>C *printf(i/) /'\n'>C
 	/'v = '>C *printf(v/) /'\n'>C
-	*** здесь может не работать
-	ffffh=t ?(v>t)1
-		L1.0-1=n 1<n=n v/2=t n-t=n ?=2
-	P1
-		ffffffffh-v=v L1.0-1=n 1<n=n v/2=t n+t=n
-	P2
+	L1.0-1=n 1<n=n v/2=t n-t=n
 **
 
 
@@ -122,31 +139,14 @@ BFnonlinearity(L1/n)
 *** i - индекс найденного элемента
 *** v - (value) значение элемента
 BFpuaMaxSearch(L1/j, v)
-	Oi=j L1i=v Di Q1-1=m
+	Oi=j *absolut(L1i/v) Di Q1-1=m
 	P1 
 		?(i>m)2
 		/'L1i = '>C *printf(L1i/) /'\n'>C
-		L1i=u Di ?(u<=v)1 u=v i-1=j ?=1	*** если элемент больше
+		*absolut(L1i/u) Di ?(u<=v)1 u=v i-1=j ?=1	*** если элемент больше
 	*** предыдущего, запоминается его значение и индекс
 	P2
 **
-
-
-BFpuaMaxSearch_backup(L1/j, v)
-	Oi=j=s L1i<16=v
-	L1i>16=k Di Q1-1=m
-	P1 
-		?(i>m)3
-		/'L1i = '>C *printf(L1i/) /'\n'>C
-		L1i<8=u ?(u<=v)2 u=v i=j	*** если элемент больше
-	*** предыдущего, запоминается его значение и индекс
-	P2
-		L1i>8=l Di ?(l<=k)1 l=k i-1=s ?=1
-	P3
-		/'v = '>C *printf(v/) /'\n'>C
-		/'k = '>C *printf(k/) /'\n'>C
-**
-
 
 
 test_cor(/)
@@ -156,9 +156,6 @@ test_cor(/)
 	
 	
 **
-
-
-
 
 BFcor(L1/m)
 	
@@ -207,9 +204,7 @@ BFdegree(L1/d)
 		*** как посчитать количество переменных(степень)?
 		*** /'t = '>C *printf(t/) /'\n'>C
 		*** /'d = '>C *printf(d/) /'\n'>C
-		l-1*32+i=t Oj
-	P4
-		?(j>n)5 Ij&t=k Dj ?(k=0)4 Dd ?=4
+		l-1*32+i=t Oj t%=p t=q ?(p<=d)2 p=d ?=2
 	P5
 		/'t = '>C *printf(t/) /'\n'>C
 		/'j = '>C *printf(j/) /'\n'>C

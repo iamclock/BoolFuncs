@@ -24,6 +24,7 @@ def old_lyapas_sintax_replace(file_from, file_to):
 	much_less = "≪"
 	disunction = "∨"
 	xor = "⊕"
+	reverse = "¬"
 	countStars = 0
 	x = file_from.read(1)
 	while x != '':
@@ -118,6 +119,9 @@ def old_lyapas_sintax_replace(file_from, file_to):
 			x = x = file_from.read(1)
 		elif x == '^':
 			file_to.write(xor)
+			x = x = file_from.read(1)
+		elif x == '~':
+			file_to.write(reverse)
 			x = x = file_from.read(1)
 		elif x == '*':
 			while x == '*':

@@ -10,9 +10,9 @@ main(/)
 	*** *test_degree(/)
 	*** *test_betterAffineZoom(/)
 	*** *test_nonlinearity(/)
-	*test_cor(/)
-	*** *test_autocor(/)
-	*** *PC(/)
+	*** *test_cor(/)
+	*test_autocor(/)
+	*** *test_propCrit(/)
 	*** test_(/)
 **
 
@@ -32,6 +32,97 @@ main(/)
 ***********************************************************************************************
 
 *** Если L# булевый вектор, тогда в первом элементе находится количество переменных в нём, а размер булевого вектора = 1 < L#.0
+
+
+test_autocor(/)
+	@+L1(100)
+	@+F2(100)
+	*** OQ2 @'01110101101010101010101010101001'>F2
+	OQ2 @'11000110'>F2
+	*** OQ2 @'11111111'>F2
+	*BFinput(F2/L1)
+	*** *BFoutput(L1/) /'\n'>C
+	*BFoutput_string(L1/) /'\n'>C
+	*BFautocor(/)
+	
+	
+**
+
+*** Автокорреляция
+*** 
+*** 
+BFautocor(/)
+	
+	
+	
+**
+
+
+*** Алгоритм автокорреляция
+*** 
+*** 
+BFautocorAlg(L1/L2)
+	L1.0=m 1<m=n
+	@+L3(n)
+	Oi+1=l Yn Ym
+	P91
+		?(i>31)92 OL2i L1l&Ii=t Di ?(t=0)91 L2i-1=L2i ?=91
+	P92
+		Dl Oi ?(l<Q1)91 Oi+1=j
+	P93
+		?(i>m)end_cycle1 Ok
+	P94
+		?(k>n)end_cycle2 Ol=q j-1=o
+	P95
+		?(l>o)97
+		k+l=p+q=t p+j=e ?(q>0)96 L2p+L2e=L3t Dl ?=95
+	P96
+		L2p-L2e=L3t Dl ?=95
+	P97
+		?(q>0)98 j=q ?=95
+	P98
+		j<1-1=o Ol
+	P99
+		?(l>o)100 l+k=t L3t=L2t Dl ?=99
+	P100
+		j<1+k=k ?=94
+**
+
+test_propCrit(/)
+	@+L1(100)
+	@+F2(100)
+	*** OQ2 @'01110101101010101010101010101001'>F2
+	OQ2 @'11000110'>F2
+	*** OQ2 @'11111111'>F2
+	*BFinput(F2/L1)
+	*** *BFoutput(L1/) /'\n'>C
+	*BFoutput_string(L1/) /'\n'>C
+	*BFpropCrit(/)
+	
+**
+
+*** Обёртка алгоритм критерий распространения(Propagation Criterion Algotithm)
+*** 
+*** 
+BFpropCrit(/)
+	Om 1<L1.0=n
+	*BFweight(L1/t)
+	?(t=n)1 ?(t=0)1
+	@+L2(n)
+	*BFautocor(L1/L2)
+	*sprint_complex(L2/) /'\n'>C
+	*BFcorAlg(L2, m/m)
+	P1
+**
+
+*** Алгоритм критерий распространения(Propagation Criterion Algotithm)
+*** 
+*** 
+BFpropCritAlg(/)
+	
+	
+	
+**
 
 
 test_betterAffineZoom(/)
@@ -160,39 +251,51 @@ test_cor(/)
 	@+F2(100)
 	*** OQ2 @'01110101101010101010101010101001'>F2
 	OQ2 @'11000110'>F2
+	*** OQ2 @'11111111'>F2
 	*BFinput(F2/L1)
+	*** *BFoutput(L1/) /'\n'>C
+	*BFoutput_string(L1/) /'\n'>C
 	*BFcor(L1/m)
+	/'m = '>C *printf(m/) /'\n'>C
 	
 	
 **
 
 
-*** Обёртка для алгоритма поиска порядка корр. иммунности
+*** Обёртка для алгоритма порядок корреляционной иммунности
 *** 
 *** 
 BFcor(L1/m)
-	1<L1.0=n
+	L1.0=m 1<m=n
+	*BFweight(L1/t)
+	?(t=n)1 ?(t=0)1
 	@+L2(n)
 	*pua(L1/L2)
-	*BFcorAlg(L2, L1.0/m)
-	/'m = '>C *printf(m/) /'\n'>C
+	*sprint_complex(L2/) /'\n'>C
+	*BFcorAlg(L2, m/m)
+	P1
 **
 
 
-*** Алгоритм поиска порядка корреляционной иммунности
+
+*** Степень корреляционной иммунности. Алгоритм
+*** Также используется при вычислении критерия распространения
 *** 
-*** 
-*** 
-BFcorAlg(L1, n/m)
-	n-1=n
-	Om=l=j=i Di
-	P91
-		?(i>n)94 1<i-1=l 1=j
-	P92
-		?(j>l)93 ?(L1j#0)94 Dj ?=92
-	P93
-		Di ?=91
-	P94
+BFcorAlg(L1, l/m)
+	l-1=n 1=i
+	P1 ?(i>n)6
+		1<i-1=d l-i=t d<t=b ?(L1b#0)7
+	P2
+		?(b=d)5 b+1&b=c Ow c-1^b=q
+	P3
+		?(q=0)4 q-1&q=q Dw ?=3
+	P4
+		w-2=w b+1^b<1+1<w^c=b ?(L1b#0)7 ?=2
+	P5
+		Di ?=1
+	P6
+		l=i
+	P7
 		i-1=m
 **
 

@@ -353,13 +353,12 @@ BFdegree(L1/d)
 
 *** превращение булева вектора в характеристический вектор
 toCharactVect(L1/L2)
-	Oi=j+1=l
+	Oi=j+1=l L1.0=n In=Q2
 	P1
-		Ij&L1l>j+2;3-1=L2i Di Dj ?(j>31)2 ?=1
+		Ij&L1l>j+2;3-1=L2i Di Dj ?(j>Q2)3 ?(j>31)2 ?=1
 	P2
-		Oj Dl ?(l<Q1)1  i=Q2
-		*** /'i = '>C *printf(i/) /'\n'>C
-		*** /'Q2 = '>C *printf(Q2/) /'\n'>C
+		Oj Dl ?(l<Q1)1
+	P3
 **
 
 
@@ -371,7 +370,7 @@ toCharactVect(L1/L2)
 *** e+g f+h e-g f-h
 *** b - граница
 pua(L1/L2)
-	L1.0=n In=Q2 Op=j=k 1=i=s In-1=n/2+1=m  *** 1<L1.0-1=n/2+1=m
+	L1.0=n Op=j=k 1=i=s In-1=n/2+1=m  *** 1<L1.0-1=n/2+1=m
 	*toCharactVect(L1/L2)
 	/'n = '>C *printf(n/) /'\n'>C
 	*** *sprint_complex(L2/) /'\n'>C

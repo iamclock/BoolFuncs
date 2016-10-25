@@ -61,31 +61,37 @@ BFautocor(/)
 *** Алгоритм автокорреляция
 *** 
 *** 
+*** 
+*** P91 
+*** P92 
 BFautocorAlg(L1/L2)
 	L1.0=m 1<m=n
 	@+L3(n)
-	Oi+1=l Yn Ym
-	P91
-		?(i>31)92 OL2i L1l&Ii=t Di ?(t=0)91 L2i-1=L2i ?=91
-	P92
-		Dl Oi ?(l<Q1)91 Oi+1=j
+	*toCharactVect(L1/L2)
+	Oi=f+1=j
 	P93
-		?(i>m)end_cycle1 Ok
+		Ok
 	P94
-		?(k>n)end_cycle2 Ol=q j-1=o
+		Ol=q j-1=o
 	P95
 		?(l>o)97
 		k+l=p+q=t p+j=e ?(q>0)96 L2p+L2e=L3t Dl ?=95
 	P96
 		L2p-L2e=L3t Dl ?=95
 	P97
-		?(q>0)98 j=q ?=95
+		?(q>0)98 Ol j=q ?=95
 	P98
 		j<1-1=o Ol
 	P99
-		?(l>o)100 l+k=t L3t=L2t Dl ?=99
+		?(l>o)100 l+k=t L3t>f=L2t Dl ?=99
 	P100
-		j<1+k=k ?=94
+		j<1+k=k ?(k<m)94 Di j<1=j ?(i<m)93 Oi
+	
+	*** эту часть доделать:
+	P101
+		?(i>31)92 OL2i L1l&Ii>i+2;3-1=L2i Di ?(t=0)91 L2i-1=L2i ?=91
+	P102
+		Dl Oi ?(l<Q1)91
 **
 
 test_propCrit(/)

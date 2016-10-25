@@ -10,9 +10,9 @@ main(/)
 	*** *test_degree(/)
 	*** *test_betterAffineZoom(/)
 	*** *test_nonlinearity(/)
-	*test_cor(/)
+	*** *test_cor(/)
 	*** *test_autocor(/)
-	*** *test_propCrit(/)
+	*test_propCrit(/)
 	*** test_(/)
 **
 
@@ -99,14 +99,14 @@ test_propCrit(/)
 	*BFinput(F2/L1)
 	*** *BFoutput(L1/) /'\n'>C
 	*BFoutput_string(L1/) /'\n'>C
-	*BFpropCrit(/)
-	
+	*BFpropCrit(L1/m)
+	/'m = '>C *printf(m/) /'\n'>C
 **
 
 *** Обёртка алгоритм критерий распространения(Propagation Criterion Algotithm)
 *** 
 *** 
-BFpropCrit(/)
+BFpropCrit(L1/m)
 	Om 1<L1.0=n
 	*BFweight(L1/t)
 	?(t=n)1 ?(t=0)1

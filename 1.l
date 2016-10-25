@@ -11,8 +11,8 @@ main(/)
 	*** *test_betterAffineZoom(/)
 	*** *test_nonlinearity(/)
 	*** *test_cor(/)
-	*** *test_autocor(/)
-	*test_propCrit(/)
+	*test_autocor(/)
+	*** *test_propCrit(/)
 	*** test_(/)
 **
 
@@ -50,33 +50,51 @@ test_autocor(/)
 	
 **
 
-
+*** /' = '>C *printf(/) /'\n'>C
 *** Автокорреляция
 *** 
 *** 
 *** 
 BFautocor(L1/L2)
 	L1.0=m 1<m=n
-	@+L3(n)
+	@+L3(n) n=Q3
 	*toCharactVect(L1/L2)
-	Oi=f+1=j
+	Oi=f+1=j /'		*************** Cycle1 ******************\n'>C
 	P93									*** Начало cycle1
-		Ok
+		Ok /'		*************** Cycle2 ******************\n'>C
 	P94									*** Начало cycle2
-		Ol=q j-1=o
+		Ol=q j-1=o /'		*************** Cycle3 ******************\n'>C
 	P95									*** Начало cycle3,4
 		?(l>o)97
-		k+l=p+q=t p+j=e ?(q>0)96 L2p+L2e=L3t Dl ?=95
+		k+l=p+q=t p+j=e
+		/'q = '>C *sprintf(q/) /'\n'>C
+		/'p = '>C *sprintf(p/) /'\n'>C
+		/'e = '>C *sprintf(e/) /'\n'>C
+		/'t = '>C *sprintf(t/) /'\n'>C
+		/'L2p = '>C *sprintf(L2p/) /'\n'>C
+		/'L2e = '>C *sprintf(L2e/) /'\n'>C
+		/'L3t = '>C *sprintf(L3t/) /'\n'>C
+		?(q>0)96 L2p+L2e=L3t Dl ?=95
 	P96
 		L2p-L2e=L3t Dl ?=95
 	P97									*** триггер для 4го цикла основан на значении q
 											*** если q>0, значит цикл уже проходил, переход к следующему шагу
-		?(q>0)98 Ol j=q ?=95
+		/'L3 = '>C *sprint_complex(L3/) /'\n'>C
+		?(q>0)98 Ol j=q
+		/'		*************** Cycle4 ******************\n'>C
+		?=95
 	P98
-		j<1-1=o Ol
+		j<1-1=o Ol /'		*************** Cycle5 ******************\n'>C
 	P99									*** Начало cycle5
-		?(l>o)100 l+k=t L3t>f=L2t Dl ?=99
+		?(l>o)100 l+k=t
+		*** /'t = '>C *sprintf(t/) /'\n'>C
+		*** /'L2t = '>C *sprintf(L2t/) /'\n'>C
+		*** /'L3t = '>C *sprintf(L3t/) /'\n'>C
+		L3t>f=L2t Dl ?=99
 	P100
+		/'f = '>C *sprintf(f/) /'\n'>C
+		/'L3 = '>C *sprint_complex(L3/) /'\n'>C
+		/'L2 = '>C *sprint_complex(L2/) /'\n'>C
 		j<1+k=k ?(k<m)94 Di j<1=j ?(i<m)93
 											*** триггер для перехода между
 											*** двумя частями, основан на значении f
@@ -85,7 +103,9 @@ BFautocor(L1/L2)
 	P101
 		?(i>t)102 L2i*L2i=L2i Di ?=101
 	P102
-		Dl Oi ?(l<Q1)101 1=f ?=93
+		Oi+1=f=j
+		/'		*************** Cycle1 ******************\n'>C
+		?=93
 	P103
 **
 

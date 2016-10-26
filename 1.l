@@ -1,19 +1,19 @@
 main(/)
 	
 	
-	
-	*** *bool_input_output_weight_test(/)
-	*** *bool_rand_test(/)
-	*** *bool_moebius_test(/)
-	*** *bool_pua_test(/)
-	*test_printANF(/)
-	*** *test_degree(/)
-	*** *test_betterAffineZoom(/)
-	*** *test_nonlinearity(/)
-	*** *test_cor(/)
+	*** Расположены в порядке следования
 	*** *test_autocor(/)
 	*** *test_propCrit(/)
-	*** test_(/)
+	*** *test_betterAffineZoom(/)
+	*** *test_nonlinearity(/)
+	*test_cor(/)
+	*** *test_degree(/)
+	*** *bool_pua_test(/)
+	*** *bool_moebius_test(/)
+	*** *test_printANF(/)
+	*** *bool_rand_test(/)
+	*** *bool_input_output_weight_test(/)
+	
 **
 
 
@@ -135,8 +135,7 @@ test_betterAffineZoom(/)
 	*BFoutput_string(L1/) /'\n'>C
 	*BFbetterAffineZoom(L1/L2)
 	/'L1 = '>C *BFoutput_string(L1/) /'\n'>C
-	/'L1 = '>C *BFoutput_string(L2/) /'\n'>C
-	*** /'n = '>C *printf(n/) /'\n'>C
+	/'L2 = '>C *BFoutput_string(L2/) /'\n'>C
 	
 **
 
@@ -668,7 +667,7 @@ printANF(L1/F2)
 		Os
 		?(L3i=0)6 *** s=0 - начинаю с начала
 	P2
-		/'f = '>C *printf(f/) /'\n'>C
+		*** /'f = '>C *printf(f/) /'\n'>C
 		?(s>31)6 L3.0=t ?(s>It)6 ?(f=0)3 Of @' + '>F2
 	P3
 		*** /'i = '>C *printf(i/) /'\n'>C
@@ -692,10 +691,10 @@ printANF(L1/F2)
 		Di ?(i<Q3)1 ?=8
 	P7
 		'X'@>F2 L3.0-j+1=t *** /'qq\n'>C
-		/'i = '>C *printf(i/) /'\n'>C
-		/'n = '>C *printf(n/) /'\n'>C
-		/'j = '>C *printf(j/) /'\n'>C
-		/'t = '>C *printf(t/) /'\n'>C
+		*** /'i = '>C *printf(i/) /'\n'>C
+		*** /'n = '>C *printf(n/) /'\n'>C
+		*** /'j = '>C *printf(j/) /'\n'>C
+		*** /'t = '>C *printf(t/) /'\n'>C
 		OQ4 *n2s(t, 10/F4) *copySymbComplex(F4, F2/F2)
 		*** /F2>C /'\n'>C
 		?=4 *** ?(j<=n)4 ?=4
